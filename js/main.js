@@ -1,10 +1,10 @@
 //Функция возвращает случайное целое число из переданного диапазона включительно
 
 function getRandomNumber (min, max) {
-  if (min >= 0 && max >= 0 && max > min) {
+  if (min >= 0 && max > min) {
     return Math.floor(Math.random() * (max - min) + min);
-  } else if (min >= 0 && max >= 0 && min === max) {
-    return min;
+  } else if (min >= 0 && min === max) {
+    return Math.floor(min);
   }
   throw new Error ('Диапазон указан неверно. Числа должны быть больше или равны нулю, а первое число - меньше второго.');
 }
