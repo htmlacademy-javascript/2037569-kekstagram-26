@@ -5,6 +5,8 @@ function getRandomNumber (min, max) {
     return Math.floor(Math.random() * (max - min) + min);
   } else if (min >= 0 && min === max) {
     return Math.floor(min);
+  } else if (max >= 0 && min > max) {
+    return Math.floor(Math.random() * (min - max) + max);
   }
   throw new Error ('Диапазон указан неверно. Числа должны быть больше или равны нулю, а первое число - меньше второго.');
 }
