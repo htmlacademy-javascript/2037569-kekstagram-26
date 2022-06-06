@@ -1,25 +1,20 @@
 //Функция возвращает случайное целое число из переданного диапазона включительно
 
-function getRandomNumber (min, max) {
+const getRandomNumber = (min, max) => {
   if (min >= 0 && max > min) {
-    return Math.floor(Math.random() * (max - min) + min);
-  } else if (min >= 0 && min === max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  } if (min >= 0 && min === max) {
     return Math.floor(min);
-  } else if (max >= 0 && min > max) {
-    return Math.floor(Math.random() * (min - max) + max);
+  } if (max >= 0 && min > max) {
+    return Math.floor(Math.random() * (min - max + 1) + max);
   }
-  throw new Error ('Диапазон указан неверно. Числа должны быть больше или равны нулю, а первое число - меньше второго.');
-}
+  return 0;
+};
 
 getRandomNumber (10, 15);
 
 //Функция проверки максимальной длины строки
 
-function checkLength (string, maxLength) {
-  if (string.length <= maxLength) {
-    return true;
-  }
-  return false;
-}
+const checkLength = (string, maxLength) => string.length <= maxLength;
 
 checkLength ('Пример строки', 15);
