@@ -59,11 +59,7 @@ const getRandomPositiveInteger = (a, b) => {
   return Math.floor(result);
 };
 
-//Заменить на стрелочную функцию
-function getRandomArrayElement (elements) {
-  return elements[getRandomPositiveInteger(0, elements.length - 1)];
-}
-
+const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
 
 const createComment = () => ({
   id: createArray(COMMENTID),
