@@ -31,26 +31,22 @@ const DESCRIPTIONS = [
   'Когда уже отпуск?'
 ];
 
+const Avatar = {
+  MIN: 1,
+  MAX: 6
+};
+
+const Likes = {
+  MIN: 15,
+  MAX: 200
+};
+
+const Comments = {
+  MIN: 1,
+  MAX: 3
+};
+
 const SIMILAR_POSTS_COUNT = 25;
-const POSTID = [];
-const COMMENTID = [];
-const URL = [];
-
-const createArray = (array) => array.splice(Math.random()*array.length, 1)[0];
-
-//Хотелось бы сделать один счетчик вместо трех, обернув его в функцию, но не знаю,
-//как передать массив в качестве аргумента, чтобы все работало.
-for (let i = 1; i <= SIMILAR_POSTS_COUNT; i++) {
-  POSTID.push(i);
-}
-
-for (let i = 1; i <= SIMILAR_POSTS_COUNT; i++) {
-  COMMENTID.push(i);
-}
-
-for (let i = 1; i <= SIMILAR_POSTS_COUNT; i++) {
-  URL.push(i);
-}
 
 const getRandomPositiveInteger = (a, b) => {
   const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
@@ -61,20 +57,32 @@ const getRandomPositiveInteger = (a, b) => {
 
 const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
 
-const createComment = () => ({
-  id: createArray(COMMENTID),
-  avatar: `img/avatar-${getRandomPositiveInteger(1, 6)}.svg`,
-  message: getRandomArrayElement(COMMENTS),
-  name: getRandomArrayElement(NAMES),
-});
+let commentCount = 0;
 
-const createPost = () => ({
-  id: createArray(POSTID),
-  url: `photos/${createArray(URL)}.jpg`,
-  description: getRandomArrayElement(DESCRIPTIONS),
-  likes: getRandomPositiveInteger(15, 200),
-  comments: createComment(),
-});
+const createComment = () => {
+  commentCount++;
+  return {
+    id: commentCount,
+    avatar: `img/avatar-${getRandomPositiveInteger(Avatar.MIN, Avatar.MAX)}.svg`,
+    message: getRandomArrayElement(COMMENTS),
+    name: getRandomArrayElement(NAMES),
+  };
+};
+
+let postCount = 0;
+
+const createPost = () => {
+  while (postCount <= SIMILAR_POSTS_COUNT) {
+    postCount++;
+    return {
+      id: postCount,
+      url: `photos/${postCount}.jpg`,
+      description: getRandomArrayElement(DESCRIPTIONS),
+      likes: getRandomPositiveInteger(Likes.MIN, Likes.MAX),
+      comments: Array.from({length: getRandomPositiveInteger(Comments.MIN, Comments.MAX)}, createComment)
+    };
+  }
+};
 
 const similarPosts = Array.from({length: SIMILAR_POSTS_COUNT}, createPost);
 
