@@ -1,5 +1,3 @@
-import {makePosts} from './data.js';
-
-console.log(
-  makePosts()
-);
+import './data.js';
+import './util.js';
+import './thumbnail-rendering.js';
