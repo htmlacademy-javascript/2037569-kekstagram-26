@@ -1,4 +1,4 @@
-import {renderPhotoElement} from './big-foto.js';
+import {renderPhotoElement} from './big-photo.js';
 
 const renderThumbnails = (thumbnails) => {
   const userPhotoTemplate = document.querySelector('#picture').content;
@@ -21,10 +21,6 @@ const renderThumbnails = (thumbnails) => {
 
   const initBigPicture = (item, dataPicture) => {
     item.addEventListener('click', () => {
-      const bigPictureContainer = document.querySelector('.big-picture');
-      const body = document.querySelector('body');
-      bigPictureContainer.classList.remove('hidden');
-      body.classList.add('modal-open');
       renderPhotoElement(dataPicture);
     });
   };
