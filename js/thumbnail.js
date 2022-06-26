@@ -1,4 +1,4 @@
-//
+import {renderPhotoElement} from './big-photo.js';
 
 const renderThumbnails = (thumbnails) => {
   const userPhotoTemplate = document.querySelector('#picture').content;
@@ -14,10 +14,20 @@ const renderThumbnails = (thumbnails) => {
   });
 
   userPhotosContainer.append(photoListFragment);
+
+  //Функция для связки миниатюр и больших фото
+
+  const previews = userPhotosContainer.querySelectorAll('.picture');
+
+  const initBigPicture = (item, dataPicture) => {
+    item.addEventListener('click', () => {
+      renderPhotoElement(dataPicture);
+    });
+  };
+
+  for (let i = 0; i < thumbnails.length; i++) {
+    initBigPicture(previews[i], thumbnails[i]);
+  }
 };
 
 export {renderThumbnails};
-
-//const userPhotos = makePosts();
-
-
