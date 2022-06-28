@@ -28,7 +28,7 @@ const onModalClose = (evt) => {
 function hideBigPicture(){
   bigPicture.classList.add('hidden');
   body.classList.remove('modal-open');
-  //document.removeEventListener('keydown', onModalClose);
+  document.removeEventListener('keydown', onModalClose);
 }
 
 //Функция для отрисовки фотографии в полноэкранном режиме
@@ -61,8 +61,6 @@ const renderPhotoElement = (photo) => {
   commentsContainer.append(commentListFragment);
 
   document.addEventListener('keydown', onModalClose);
-
-
 };
 
 export {renderPhotoElement};
