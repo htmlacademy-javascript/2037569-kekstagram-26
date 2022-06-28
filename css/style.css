@@ -56,6 +56,9 @@ main {
   overflow: hidden;
 }
 
+.pristine-error {
+  margin-bottom: 10px;
+}
 
 /**
  * Кнопка закрытия модального окна

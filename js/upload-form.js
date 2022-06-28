@@ -2,10 +2,9 @@ const uploadFile = document.querySelector('#upload-file');
 const editPhoto = document.querySelector('.img-upload__overlay');
 const body = document.querySelector('body');
 const uploadCancel = document.querySelector('#upload-cancel');
-const scaleControl = document.querySelector('.scale__control');
-const hashtags = document.querySelector('.text__hashtags');
-const descriptionTextarea = document.querySelector('.text__description');
-const photoFilter = document.querySelector('.effects__radio');
+const imgUploadForm = document.querySelector('.img-upload__form');
+const inputHashtag = document.querySelector('.text__hashtags');
+const inputDescription = document.querySelector('.text__description');
 
 //Закрытие формы редактирования
 
@@ -24,12 +23,7 @@ function hideEditPhoto(){
   editPhoto.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEditClose);
-  //Сброс значений полей
-  uploadFile.value = '';
-  scaleControl.value = '100%';
-  hashtags.value = '';
-  photoFilter.value = 'none';
-  descriptionTextarea.textContent = '';
+  imgUploadForm.reset();
 }
 
 //Открытие формы редактирования
@@ -41,5 +35,17 @@ const uploadPhoto = () => {
     document.addEventListener('keydown', onEditClose);
   });
 };
+
+//Убираем закрытие по Esc при фокусе
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+const onFocusInputPressEsc = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.stopPropagation();
+  }
+};
+
+inputHashtag.addEventListener('keydown', onFocusInputPressEsc);
+inputDescription.addEventListener('keydown', onFocusInputPressEsc);
 
 export {uploadPhoto};

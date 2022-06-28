@@ -1,63 +1,38 @@
+const imgUploadForm = document.querySelector('.img-upload__form');
 const inputHashtag = document.querySelector('.text__hashtags');
-const inputDescription = document.querySelector('.text__description');
-const templateHashtagCommon = /(^#[A-Za-zА-ЯЁа-яё0-9]{0,}$)s*/;
 
-const MAX_LENGHT_HASHTAG = 20;
 const MAX_HASHTAG_NUMBERS = 5;
-const MAX_LENGTH_TEXT_DESCRIPTION = 140;
+const RE = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
 
-const onHashTagInputValid = () => {
-  const currentValue = inputHashtag.value;
-  const arrayHashtags = currentValue.toLowerCase().split(' ');
-  const uniqueHashtagArray = new Set(arrayHashtags);
 
-  arrayHashtags.forEach((hashtag) => {
-    if (hashtag[0] !== '#') {
-      inputHashtag.setCustomValidity('Хештег должен начинаться с символа #');
-    } else if (hashtag === '#') {
-      inputHashtag.setCustomValidity('Хештег не может состоять только символа #');
-    } else if (!templateHashtagCommon.test(hashtag)) {
-      inputHashtag.setCustomValidity('Удалите спецсимволы. После решетки должны быть только буквы и цифры');
-    } else if (hashtag.length > MAX_LENGHT_HASHTAG) {
-      inputHashtag.setCustomValidity('Максимальная длина одного хештега 20 символов, включая решётку.');
-    } else if (arrayHashtags.length > MAX_HASHTAG_NUMBERS) {
-      inputHashtag.setCustomValidity('Нельзя указать больше пяти хештегов]');
-    } else if (arrayHashtags.length !== uniqueHashtagArray.size) {
-      inputHashtag.setCustomValidity('Хештеги не должны повторяться');
-    } else {
-      inputHashtag.setCustomValidity('');
-    }
-
-    inputHashtag.reportValidity();
-  });
+//Функции для проверки хештегов
+const validateHashtags = (value) => {
+  const hashTags = value.toLowerCase().trim().split(' ');
+  return hashTags.every((hashTag) => RE.test(hashTag));
 };
 
-// Обработчик поля ввода хештегов
-inputHashtag.addEventListener('input', onHashTagInputValid);
-
-// Функция проверки длины описания
-const onInputDescriptionValid = () => {
-  const currentLengthComment = inputDescription.value.length;
-
-  if (currentLengthComment > MAX_LENGTH_TEXT_DESCRIPTION) {
-    inputDescription.setCustomValidity('Длина описания не может составлять больше 140 символов. Удалите лишние символы.');
-  } else {
-    inputDescription.setCustomValidity('');
-  }
-
-  inputDescription.reportValidity();
+const validateUniqueHashtags = (value) => {
+  const hashTags = value.toLowerCase().trim().split(' ');
+  return hashTags.length === (new Set(hashTags)).size;
 };
 
-inputDescription.addEventListener('input', onInputDescriptionValid);
-
-//Убираем закрытие по Esc при фокусе
-const isEscapeKey = (evt) => evt.key === 'Escape';
-
-const stopPropagationKeydownEsc = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.stopPropagation();
-  }
+const validateNumberHashtags = (value) => {
+  const hashTags = value.toLowerCase().trim().split(' ');
+  return hashTags.length < MAX_HASHTAG_NUMBERS;
 };
 
-inputHashtag.addEventListener('keydown', stopPropagationKeydownEsc);
-inputDescription.addEventListener('keydown', stopPropagationKeydownEsc);
+const pristine = new Pristine(imgUploadForm, {
+  classTo: 'img-upload__form',
+  errorTextParent: 'img-upload__field-wrapper'
+});
+
+
+pristine.addValidator(inputHashtag, validateHashtags, 'Невалидный хештег');
+pristine.addValidator(inputHashtag, validateUniqueHashtags, 'Один и тот же хештег не может быть использован дважды');
+pristine.addValidator(inputHashtag, validateNumberHashtags, 'Нельзя указать больше 5 хештегов');
+
+imgUploadForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  if (pristine.validate());
+});
+
