@@ -42,7 +42,7 @@ const Likes = {
 
 const Comments = {
   MIN: 1,
-  MAX: 3
+  MAX: 10
 };
 
 const SIMILAR_POSTS_COUNT = 25;
