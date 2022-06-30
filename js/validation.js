@@ -33,6 +33,6 @@ pristine.addValidator(inputHashtag, validateNumberHashtags, 'Нельзя ука
 
 imgUploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  if (pristine.validate());
+  //if (pristine.validate());
 });
 
