@@ -1,4 +1,4 @@
-const MIN_COMMENTS_COUNT = 5;
+const MAX_COMMENTS_COUNT = 5;
 
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
@@ -10,6 +10,7 @@ const commentCount = bigPicture.querySelector('.social__comment-count');
 const commentLoader = bigPicture.querySelector('.comments-loader');
 const commentsContainer = bigPicture.querySelector('.social__comments');
 const commentElement = bigPicture.querySelector('.social__comment');
+const commentsLoader = bigPicture.querySelector('.social__comments-loader');
 
 const buttonCloseBigPicture = bigPicture.querySelector('#picture-cancel');
 
@@ -18,77 +19,65 @@ const commentListFragment = document.createDocumentFragment();
 
 buttonCloseBigPicture.addEventListener('click', (evt) => {
   evt.preventDefault();
-  onBigPictureKeyDown();
+  hideBigPicture();
 });
 
 const onModalClose = (evt) => {
   if (evt.key === 'Escape') {
-    onBigPictureKeyDown();
+    hideBigPicture();
   }
 };
 
-function onBigPictureKeyDown(){
+function hideBigPicture(){
   bigPicture.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onModalClose);
 }
 
-//Функция для отрисовки фотографии в полноэкранном режиме
 
-const renderPhotoElement = (photo) => {
+const renderPhotoElement = ({url, likes, comments, description}) => {
   bigPicture.classList.remove('hidden');
   body.classList.add('modal-open');
 
-  bigPictureImg.src = photo.url;
-  bigPictureLikes.textContent = photo.likes;
-  bigPictureComments.textContent = photo.comments;
-  bigPictureDescription.textContent = photo.description;
+  bigPictureImg.src = url;
+  bigPictureLikes.textContent = likes;
+  bigPictureComments.textContent = comments;
+  bigPictureDescription.textContent = description;
 
-  let countClickAddComments = 0;
-  commentsContainer.textContent = '';
-  const commentsCount = photo.comments.length;
-  const commentsPartsCount = Math.floor(commentsCount / MIN_COMMENTS_COUNT) + Math.ceil(commentsCount % MIN_COMMENTS_COUNT / MIN_COMMENTS_COUNT);
+  let count = 0;
 
-  if (MIN_COMMENTS_COUNT >= commentsCount) {
-    commentLoader.classList.add('hidden');
-  }
-  else {
-    commentLoader.classList.remove('hidden');
-  }
-
-  const addCommentsToList = () => {
-    photo.comments.slice(countClickAddComments * MIN_COMMENTS_COUNT, (countClickAddComments + 1) * MIN_COMMENTS_COUNT).forEach((comment) => {
+  const createComments = () => {
+    comments.slice(0, count += MAX_COMMENTS_COUNT).forEach(({avatar, name, message}) => {
       const commentElementCopy = commentElement.cloneNode(true);
       const commentAvatar = commentElementCopy.querySelector('.social__comment .social__picture');
       const commentMesssage = commentElementCopy.querySelector('.social__comment .social__text');
 
-      commentAvatar.src = comment.avatar;
-      commentAvatar.alt = comment.name;
-      commentMesssage.textContent = comment.message;
+      commentAvatar.src = avatar;
+      commentAvatar.alt = name;
+      commentMesssage.textContent = message;
 
       commentListFragment.append(commentElementCopy);
     });
-    commentsContainer.append(commentListFragment);
-    const shownComments = (countClickAddComments + 1) * MIN_COMMENTS_COUNT <= commentsCount ? (countClickAddComments + 1) * MIN_COMMENTS_COUNT : commentsCount;
-    commentCount.textContent = `${shownComments} из ${commentsCount} комментариев`;
-  };
-  addCommentsToList();
 
-  commentLoader.addEventListener('click', () => {
-    countClickAddComments++;
-    if (countClickAddComments === commentsPartsCount - 1) {
+    commentsContainer.innerHTML = '';
+    commentsContainer.append(commentListFragment);
+
+    if(count >= comments.length) {
       commentLoader.classList.add('hidden');
-      addCommentsToList();
+      commentCount.textContent = `${comments.length} из ${comments.length} комментариев`;
+    } else {
+      commentLoader.classList.remove('hidden');
+      commentCount.textContent = `${count} из ${comments.length} комментариев`;
     }
-    else {
-      addCommentsToList();
-    }
+
+  };
+  createComments();
+  document.addEventListener('keydown', onModalClose);
+
+  commentsLoader.addEventListener('click', () => {
+    createComments();
   });
 
-  commentsContainer.append(commentListFragment);
-
-  document.addEventListener('keydown', onModalClose);
 };
-
 
 export {renderPhotoElement};
