@@ -25,6 +25,12 @@ const onIncreaseScalingButtonClick = () => {
   }
 };
 
+const resetScaling  = () => {
+  scaleInputElement.value = `${MAX_VALUE}%`;
+  imagePreviewElement.style.transform = '';
+  currentValue = MAX_VALUE;
+};
+
 const addScalingHandlers = () => {
   controlSmaller.addEventListener('click', onDecreaseScalingButtonClick);
   controlBigger.addEventListener('click', onIncreaseScalingButtonClick);
@@ -35,4 +41,4 @@ const removeScalingHandlers = () => {
   controlBigger.removeEventListener('click', onIncreaseScalingButtonClick);
 };
 
-export {addScalingHandlers, removeScalingHandlers};
+export {addScalingHandlers, removeScalingHandlers, resetScaling};

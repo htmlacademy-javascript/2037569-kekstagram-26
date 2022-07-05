@@ -14,6 +14,7 @@ const SLIDER_PARAMETERS = {
     },
     start: 1,
     step: 0.1,
+    connect: 'lower',
   },
   'sepia': {
     range: {
@@ -22,6 +23,7 @@ const SLIDER_PARAMETERS = {
     },
     start: 1,
     step: 0.1,
+    connect: 'lower',
   },
   'marvin': {
     range: {
@@ -30,6 +32,7 @@ const SLIDER_PARAMETERS = {
     },
     start: 100,
     step: 1,
+    connect: 'lower',
     format: {
       to: (value) => `${value}%`,
       from: (value) => Number(value.replace('%', '')),
@@ -42,6 +45,7 @@ const SLIDER_PARAMETERS = {
     },
     start: 3,
     step: 0.1,
+    connect: 'lower',
     format: {
       to: (value) => `${value}px`,
       from: (value) => Number(value.replace('px', '')),
@@ -71,21 +75,21 @@ const resetFilter = () => {
 
 const addEffect = (evt) => {
   const currentEffectValue = evt.target.value;
-  if (evt.target.classList.contains('effects__radio')) {
-    effectLevel.classList.remove('hidden');
-    if (currentEffectValue === 'none') {
-      resetFilter();
-    } else {
-      noUiSlider.create(effectSlider, SLIDER_PARAMETERS[currentEffectValue]);
-      imageUploadPreview.className = `effects__preview--${currentEffectValue}`;
-      effectSlider.noUiSlider.on('update', (value, handle) => {
-        imageUploadPreview.style.filter = `${FILTERS[currentEffectValue]}(${value})`;
-        effectValue.value = handle;
-      });
-    }
-  } else if (effectSlider.noUiSlider) {
+  effectLevel.classList.remove('hidden');
+  if (effectSlider.noUiSlider) {
     effectSlider.noUiSlider.destroy();
   }
+  if (currentEffectValue === 'none') {
+    resetFilter();
+  } else {
+    noUiSlider.create(effectSlider, SLIDER_PARAMETERS[currentEffectValue]);
+    imageUploadPreview.className = `effects__preview--${currentEffectValue}`;
+    effectSlider.noUiSlider.on('update', (value, handle) => {
+      imageUploadPreview.style.filter = `${FILTERS[currentEffectValue]}(${value})`;
+      effectValue.value = handle;
+    });
+  }
+
 };
 
 export {resetFilter, addEffect };
