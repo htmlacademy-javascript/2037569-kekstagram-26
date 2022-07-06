@@ -4,9 +4,13 @@ import './validation.js';
 import './photo-effects.js';
 import './scale.js';
 import {renderThumbnails} from './thumbnail.js';
-import {makePosts} from './data.js';
-import {uploadPhoto} from './upload-form.js';
+import {uploadPhoto, hideEditPhoto} from './upload-form.js';
+import {getData} from './api.js';
+import {setUserFormSubmit} from './validation.js';
+import './upload-data.js';
 
-
-renderThumbnails(makePosts());
+getData(renderThumbnails);
 uploadPhoto();
+setUserFormSubmit(hideEditPhoto);
+
+

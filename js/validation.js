@@ -1,5 +1,9 @@
+import {sendData} from './api.js';
+import {showForm} from './upload-data.js';
+
 const imgUploadForm = document.querySelector('.img-upload__form');
 const inputHashtag = document.querySelector('.text__hashtags');
+const imgUploadSubmit = document.querySelector('.img-upload__submit');
 
 const MAX_HASHTAG_NUMBERS = 5;
 const RE = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
@@ -21,18 +25,66 @@ const validateNumberHashtags = (value) => {
   return hashTags.length < MAX_HASHTAG_NUMBERS;
 };
 
+
 const pristine = new Pristine(imgUploadForm, {
   classTo: 'img-upload__form',
-  errorTextParent: 'img-upload__field-wrapper'
+  errorTextParent: 'img-upload__text'
 });
 
+function isValidHashtags() {
+  if (inputHashtag.value.length === 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
 pristine.addValidator(inputHashtag, validateHashtags, 'Невалидный хештег');
 pristine.addValidator(inputHashtag, validateUniqueHashtags, 'Один и тот же хештег не может быть использован дважды');
 pristine.addValidator(inputHashtag, validateNumberHashtags, 'Нельзя указать больше 5 хештегов');
 
-imgUploadForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  //if (pristine.validate());
-});
 
+//Блокировка кнопки отправки данных
+const blockSubmitButton = () => {
+  imgUploadSubmit.disabled = true;
+  imgUploadSubmit.textContent = 'Загружаем...';
+};
+
+//Разблокировка кнопки отправки данных
+const unblockSubmitButton = () => {
+  imgUploadSubmit.disabled = false;
+  imgUploadSubmit.textContent = 'Опубликовать';
+};
+
+const reloadAfterSuccess = () => {
+  showForm();
+};
+
+const reloadAfterError = () => {
+  showForm(false);
+};
+
+//Отправка фото
+const setUserFormSubmit = (onSuccess) => {
+  imgUploadForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid || isValidHashtags()) {
+      blockSubmitButton();
+      sendData(
+        () => {
+          reloadAfterSuccess();
+          unblockSubmitButton();
+          onSuccess();
+        },
+        () => {
+          reloadAfterError();
+          unblockSubmitButton();
+        },
+        new FormData(evt.target),
+      );
+    }
+  });
+};
+
+export {setUserFormSubmit};

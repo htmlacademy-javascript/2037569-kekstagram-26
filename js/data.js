@@ -1,3 +1,4 @@
+/*
 import {getRandomArrayElement, getRandomPositiveInteger} from './util.js';
 
 const COMMENTS = [
@@ -77,3 +78,4 @@ const createPost = () => {
 const makePosts = () => Array.from({length: SIMILAR_POSTS_COUNT}, createPost);
 
 export {makePosts};
+*/
