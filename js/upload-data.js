@@ -19,8 +19,6 @@ function onContains(evt) {
   }
 }
 
-//если отправка данных прошла успешно, показывается соответствующее сообщение;
-//если при отправке данных произошла ошибка запроса, нужно показать соответствующее сообщение
 const showForm = (success = true) => {
   const message = success ? successContainer.cloneNode(true) : errorContainer.cloneNode(true);
   body.appendChild(message);
@@ -36,7 +34,6 @@ const showForm = (success = true) => {
   document.addEventListener('keydown', keydownFunc);
   document.addEventListener('click', onContains.bind(message));
 };
-
 
 // Сообщение об ошибке загрузки фото с сервера
 const showAlert = (message) => {

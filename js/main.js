@@ -12,5 +12,3 @@ import './upload-data.js';
 getData(renderThumbnails);
 uploadPhoto();
 setUserFormSubmit(hideEditPhoto);
-
-

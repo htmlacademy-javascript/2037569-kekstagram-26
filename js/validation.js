@@ -1,13 +1,12 @@
 import {sendData} from './api.js';
 import {showForm} from './upload-data.js';
 
-const imgUploadForm = document.querySelector('.img-upload__form');
-const inputHashtag = document.querySelector('.text__hashtags');
-const imgUploadSubmit = document.querySelector('.img-upload__submit');
-
 const MAX_HASHTAG_NUMBERS = 5;
 const RE = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
 
+const imgUploadForm = document.querySelector('.img-upload__form');
+const inputHashtag = document.querySelector('.text__hashtags');
+const imgUploadSubmit = document.querySelector('.img-upload__submit');
 
 //Функции для проверки хештегов
 const validateHashtags = (value) => {
