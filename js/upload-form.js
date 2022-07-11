@@ -8,7 +8,7 @@ const uploadCancel = document.querySelector('#upload-cancel');
 const imgUploadForm = document.querySelector('.img-upload__form');
 const inputHashtag = document.querySelector('.text__hashtags');
 const inputDescription = document.querySelector('.text__description');
-const effectsList = document.querySelector('.effects__list'); //Класс для эффектов
+const effectsList = document.querySelector('.effects__list');
 const effectLevel = document.querySelector('.effect-level');
 
 
@@ -29,9 +29,9 @@ function hideEditPhoto(){
   editPhoto.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEditClose);
-  effectsList.removeEventListener('change', addEffect);// Удаляем возможность наложения эффектов на фото
+  effectsList.removeEventListener('change', addEffect);
   imgUploadForm.reset();
-  resetFilter();//Сбрасываем эффекты
+  resetFilter();
   resetScaling();
   removeScalingHandlers();
 }
@@ -44,7 +44,7 @@ const uploadPhoto = () => {
     body.classList.add('modal-open');
     document.addEventListener('keydown', onEditClose);
     effectLevel.classList.add('hidden');
-    effectsList.addEventListener('change', addEffect);//Добавляем возможность наложения эффектов на фото
+    effectsList.addEventListener('change', addEffect);
     addScalingHandlers();
   });
 };
@@ -61,4 +61,4 @@ const onFocusInputPressEsc = (evt) => {
 inputHashtag.addEventListener('keydown', onFocusInputPressEsc);
 inputDescription.addEventListener('keydown', onFocusInputPressEsc);
 
-export {uploadPhoto};
+export {uploadPhoto, onEditClose, hideEditPhoto};

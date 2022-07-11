@@ -12,4 +12,5 @@ const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0,
 //Функция для проверки максимальной длины строки
 const checkStringLength = (string, length) => string.length <= length;
 
+
 export {getRandomArrayElement, getRandomPositiveInteger, checkStringLength};
