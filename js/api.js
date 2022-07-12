@@ -1,13 +1,13 @@
 import {showAlert} from './upload-data.js';
 
-const Servers = {
+const Urls = {
   GET: 'https://26.javascript.pages.academy/kekstagram/data',
   SEND: 'https://26.javascript.pages.academy/kekstagram'
 };
 
 // Отправляем запрос на сервер
 const getData = (onSuccess) => {
-  fetch(Servers.GET)
+  fetch(Urls.GET)
     .then((response) => response.json())
     .then((photos) => {
       onSuccess(photos);
@@ -20,7 +20,7 @@ const getData = (onSuccess) => {
 // Отправляем данные на сервер
 const sendData = (onSuccess, onFail, body) => {
   fetch(
-    Servers.SEND,
+    Urls.SEND,
     {
       method: 'POST',
       body,
