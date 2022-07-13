@@ -84,9 +84,9 @@ const addEffect = (evt) => {
   } else {
     noUiSlider.create(effectSlider, SLIDER_PARAMETERS[currentEffectValue]);
     imageUploadPreview.className = `effects__preview--${currentEffectValue}`;
-    effectSlider.noUiSlider.on('update', (value, handle) => {
+    effectSlider.noUiSlider.on('update', (value) => {
       imageUploadPreview.style.filter = `${FILTERS[currentEffectValue]}(${value})`;
-      effectValue.value = handle;
+      effectValue.value = parseFloat(value);
     });
   }
 
