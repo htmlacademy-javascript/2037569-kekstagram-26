@@ -1,4 +1,5 @@
 import {showAlert} from './upload-data.js';
+import {initFilters} from './photo-filter.js';
 
 const Urls = {
   GET: 'https://26.javascript.pages.academy/kekstagram/data',
@@ -11,6 +12,7 @@ const getData = (onSuccess) => {
     .then((response) => response.json())
     .then((photos) => {
       onSuccess(photos);
+      initFilters(); // Появляются фильтры для сортировки фотографий
     })
     .catch(() => {
       showAlert('Не удалось получить изображения. Обновите страницу');
