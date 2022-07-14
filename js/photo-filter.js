@@ -24,23 +24,14 @@ const clearPosts = () => {
   });
 };
 
-//Создаем массив фотографий
-let cards = [];
-
-const initPosts = (newCards) => {
-  cards = newCards;
-};
-
-const getPosts = () => cards;
-
 //Функция для показа фото по умолчанию
-const getDefaultPosts = () => getPosts().sort((post1, post2) => post1.id - post2.id);
+const getDefaultPosts = (posts) => posts.slice().sort((post1, post2) => post1.id - post2.id);
 
 //Функция для показа рандомных фото
-const getShuflePosts = () => getPosts().sort(() => SHUFFLE_CONST - Math.random()).slice(0, POSTS_FILTER_NUMBER);
+const getShuflePosts = (posts) => posts.slice().sort(() => SHUFFLE_CONST - Math.random()).slice(0, POSTS_FILTER_NUMBER);
 
 //Функция для сортировки по количеству комментариев
-const getDiscussedPosts = () => getPosts().sort((post1, post2) => post2.comments.length - post1.comments.length);
+const getDiscussedPosts = (posts) => posts.slice().sort((post1, post2) => post2.comments.length - post1.comments.length);
 
 //Обновляем фотографии на странице
 const updatePosts = (posts) => {
@@ -51,20 +42,20 @@ const updatePosts = (posts) => {
 //Убираем дребезг при переключении фильтров
 const debouncedPosts = debounce(updatePosts, RERENDER_DELAY);
 
-const initFilters = () => {
+const initFilters = (posts) => {
   imgFilters.classList.remove('img-filters--inactive');
   filterBtnDefault.addEventListener('click',(evt) => {
     setActiveBtn(evt.target);
-    debouncedPosts(getDefaultPosts());
+    debouncedPosts(getDefaultPosts(posts));
   });
   filterBtnRandom.addEventListener('click',(evt) => {
     setActiveBtn(evt.target);
-    debouncedPosts(getShuflePosts());
+    debouncedPosts(getShuflePosts(posts));
   });
   filterBtnDiscussed.addEventListener('click', (evt) => {
     setActiveBtn(evt.target);
-    debouncedPosts(getDiscussedPosts());
+    debouncedPosts(getDiscussedPosts(posts));
   });
 };
 
-export{initFilters, initPosts};
+export{initFilters};

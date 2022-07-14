@@ -9,11 +9,11 @@ import {renderThumbnails} from './thumbnail.js';
 import {uploadPhoto, hideEditPhoto} from './upload-form.js';
 import {getData} from './api.js';
 import {setUserFormSubmit} from './validation.js';
-import {initPosts} from './photo-filter.js';
+import {initFilters} from './photo-filter.js';
 
 getData((posts) => {
   getData(renderThumbnails);
-  initPosts(posts);
   uploadPhoto();
   setUserFormSubmit(hideEditPhoto);
-},);
+  initFilters(posts); // Появляются фильтры для сортировки фотографий
+});
