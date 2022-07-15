@@ -12,4 +12,13 @@ const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0,
 //Функция для проверки максимальной длины строки
 const checkStringLength = (string, length) => string.length <= length;
 
-export {getRandomArrayElement, getRandomPositiveInteger, checkStringLength};
+//Функция для устранения дребезга
+function debounce (callback, timeoutDelay = 500) {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
+export {getRandomArrayElement, getRandomPositiveInteger, checkStringLength, debounce};
