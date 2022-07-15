@@ -30,13 +30,7 @@ const pristine = new Pristine(imgUploadForm, {
   errorTextParent: 'img-upload__text'
 });
 
-const isValidHashtags = () => {
-  if (inputHashtag.value.length === 0) {
-    return true;
-  } else {
-    return false;
-  }
-};
+const isValidHashtags = () => inputHashtag.value.length === 0;
 
 pristine.addValidator(inputHashtag, validateHashtags, 'Невалидный хештег');
 pristine.addValidator(inputHashtag, validateUniqueHashtags, 'Один и тот же хештег не может быть использован дважды');
@@ -68,7 +62,7 @@ const setUserFormSubmit = (onSuccess) => {
   imgUploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
-    if (isValid || isValidHashtags) {
+    if (isValid || isValidHashtags()) {
       blockSubmitButton();
       sendData(
         () => {
