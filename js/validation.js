@@ -21,7 +21,7 @@ const validateUniqueHashtags = (value) => {
 
 const validateNumberHashtags = (value) => {
   const hashTags = value.toLowerCase().trim().split(' ');
-  return hashTags.length < MAX_HASHTAG_NUMBERS;
+  return hashTags.length <= MAX_HASHTAG_NUMBERS;
 };
 
 
@@ -76,6 +76,8 @@ const setUserFormSubmit = (onSuccess) => {
         },
         new FormData(evt.target),
       );
+    } else {
+      pristine.validate(inputHashtag);
     }
   });
 };

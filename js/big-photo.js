@@ -47,7 +47,8 @@ const renderPhotoElement = ({url, likes, comments, description}) => {
   let count = 0;
 
   const createComments = () => {
-    comments.slice(0, count += MAX_COMMENTS_COUNT).forEach(({avatar, name, message}) => {
+    count += MAX_COMMENTS_COUNT;
+    comments.slice(0, count).forEach(({avatar, name, message}) => {
       const commentElementCopy = commentElement.cloneNode(true);
       const commentAvatar = commentElementCopy.querySelector('.social__comment .social__picture');
       const commentMesssage = commentElementCopy.querySelector('.social__comment .social__text');
